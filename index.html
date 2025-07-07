@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.png">
+    <title>Jan Schupke - Software Engineer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="profile-section">
+                <img src="photo.jpg" alt="Jan Schupke" class="profile-image">
+                <div class="profile-info">
+                    <h1 class="name">Jan Schupke</h1>
+                    <p class="title">Software Engineer</p>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> <a href="mailto:jan@schupke.io">jan@schupke.io</a></p>
+                        <p><i class="fas fa-map-marker-alt"></i> Vantaa, Finland</p>
+                        <p><i class="fas fa-flag"></i> Czech, Finnish</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://github.com/janschupke" target="_blank" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/janschupke/" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://soundcloud.com/jan-schupke" target="_blank" title="SoundCloud">
+                            <i class="fab fa-soundcloud"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="section">
+                <h2 class="section-title">Personal Projects</h2>
+                <div class="projects-row">
+                    <div class="project-tile">
+                        <div class="project-content">
+                            <div class="project-icon">
+                                <img src="https://lines.schupke.io/favicon.svg" alt="Lines Project" class="tile-favicon">
+                            </div>
+                            <div class="project-info">
+                                <h3 class="project-title">Lines</h3>
+                                <p class="project-description">A turn-based puzzle game where you form lines of colored balls on a 9x9 grid while preventing the board from filling up.</p>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://lines.schupke.io" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Visit
+                            </a>
+                            <a href="https://github.com/janschupke/lines" target="_blank" class="project-link github-link">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="project-tile">
+                        <div class="project-content">
+                            <div class="project-icon">
+                                <img src="https://flags.schupke.io/favicon.png" alt="Flags Project" class="tile-favicon">
+                            </div>
+                            <div class="project-info">
+                                <h3 class="project-title">Flags</h3>
+                                <p class="project-description">A flag recognition quiz tool in a flashcard style.</p>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://flags.schupke.io" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Visit
+                            </a>
+                            <a href="https://github.com/janschupke/flags" target="_blank" class="project-link github-link">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="project-tile">
+                        <div class="project-content">
+                            <div class="project-icon">
+                                <img src="https://flashcards.schupke.io/favicon.ico" alt="Flashcards Project" class="tile-favicon">
+                            </div>
+                            <div class="project-info">
+                                <h3 class="project-title">Flashcards</h3>
+                                <p class="project-description">A browser tool for Chinese characters recognition, containing a set of 1500 most common characters.</p>
+                            </div>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://flashcards.schupke.io" target="_blank" class="project-link">
+                                <i class="fas fa-external-link-alt"></i> Visit
+                            </a>
+                            <a href="https://github.com/janschupke/flashcards" target="_blank" class="project-link github-link">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Add scroll-triggered animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections for scroll animations
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Add smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
