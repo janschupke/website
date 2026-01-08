@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { useState } from "react";
+import Image from "next/image";
 
 interface ImageCarouselProps {
   images: string[];
@@ -9,21 +9,17 @@ interface ImageCarouselProps {
   className?: string;
 }
 
-export default function ImageCarousel({ images, alt, className = '' }: ImageCarouselProps) {
+export default function ImageCarousel({ images, alt, className = "" }: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (images.length === 0) return null;
 
   const goToPrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
   };
 
   const goToNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
+    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
   };
 
   const goToSlide = (index: number) => {
@@ -31,13 +27,13 @@ export default function ImageCarousel({ images, alt, className = '' }: ImageCaro
   };
 
   return (
-    <div className={`relative w-full h-full ${className}`}>
-      <div className="relative w-full h-48 sm:h-56 overflow-hidden rounded-lg bg-white shadow-md">
+    <div className={`relative w-full ${className}`}>
+      <div className="relative w-full aspect-video overflow-hidden rounded-image bg-background-secondary shadow-card">
         {images.map((image, index) => (
           <div
             key={index}
             className={`absolute inset-0 transition-opacity duration-500 ${
-              index === currentIndex ? 'opacity-100' : 'opacity-0'
+              index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
           >
             <Image
@@ -56,14 +52,14 @@ export default function ImageCarousel({ images, alt, className = '' }: ImageCaro
           {/* Navigation Arrows */}
           <button
             onClick={goToPrevious}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-300 z-10"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-interactive-hover/50 hover:bg-interactive-hover/70 text-background-secondary rounded-full p-2 transition-all duration-300 z-10"
             aria-label="Previous image"
           >
             <i className="fas fa-chevron-left text-sm"></i>
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-all duration-300 z-10"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-interactive-hover/50 hover:bg-interactive-hover/70 text-background-secondary rounded-full p-2 transition-all duration-300 z-10"
             aria-label="Next image"
           >
             <i className="fas fa-chevron-right text-sm"></i>
@@ -77,8 +73,8 @@ export default function ImageCarousel({ images, alt, className = '' }: ImageCaro
                 onClick={() => goToSlide(index)}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   index === currentIndex
-                    ? 'w-6 bg-black'
-                    : 'w-2 bg-gray-400 hover:bg-gray-600'
+                    ? "w-6 bg-interactive-hover"
+                    : "w-2 bg-text-tertiary hover:bg-text-secondary"
                 }`}
                 aria-label={`Go to image ${index + 1}`}
               />
@@ -89,4 +85,3 @@ export default function ImageCarousel({ images, alt, className = '' }: ImageCaro
     </div>
   );
 }
-
