@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
 interface ImageModalProps {
@@ -24,8 +24,17 @@ export default function ImageModal({
   onNext,
   onGoToImage,
 }: ImageModalProps) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [slideDirection, setSlideDirection] = useState<"left" | "right" | null>(null);
+  const prevIndexRef = useRef(currentIndex);
+  const isInitialMount = useRef(true);
+
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      isInitialMount.current = true;
+      setIsLoading(false);
+      return;
+    }
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -45,6 +54,28 @@ export default function ImageModal({
       document.body.style.overflow = "unset";
     };
   }, [isOpen, images.length, onClose, onPrevious, onNext]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    if (isInitialMount.current) {
+      setIsLoading(true);
+      prevIndexRef.current = currentIndex;
+      isInitialMount.current = false;
+      return;
+    }
+
+    if (currentIndex !== prevIndexRef.current) {
+      const direction = currentIndex > prevIndexRef.current ? "left" : "right";
+      setSlideDirection(direction);
+      setIsLoading(true);
+      prevIndexRef.current = currentIndex;
+    }
+  }, [currentIndex, isOpen]);
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
 
   if (!isOpen) return null;
 
@@ -86,17 +117,37 @@ export default function ImageModal({
         </>
       )}
 
-      <div className="relative max-w-[90vw] max-h-[90vh] w-full h-full flex items-center justify-center p-8 animate-modalScaleIn">
-        {images[currentIndex] && (
-          <Image
-            src={images[currentIndex]}
-            alt={`${alt} - Image ${currentIndex + 1}`}
-            width={1920}
-            height={1080}
-            className="max-w-full max-h-full object-contain"
-            sizes="90vw"
-          />
+      <div className="relative max-w-[90vw] max-h-[90vh] w-full h-full flex items-center justify-center p-8">
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center z-20">
+            <div className="w-12 h-12 border-4 border-background-secondary border-t-transparent rounded-full animate-spin"></div>
+          </div>
         )}
+        <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+          {images[currentIndex] && (
+            <div
+              key={`image-${currentIndex}`}
+              className={`relative w-full h-full flex items-center justify-center ${
+                slideDirection === "left"
+                  ? "animate-slideLeft"
+                  : slideDirection === "right"
+                    ? "animate-slideRight"
+                    : "animate-modalScaleIn"
+              }`}
+            >
+              <Image
+                src={images[currentIndex]}
+                alt={`${alt} - Image ${currentIndex + 1}`}
+                width={1920}
+                height={1080}
+                className="max-w-full max-h-full object-contain"
+                sizes="90vw"
+                onLoad={handleImageLoad}
+                onLoadingComplete={handleImageLoad}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {images.length > 1 && (

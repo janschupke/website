@@ -104,6 +104,22 @@ const config: Config = {
             transform: "scale(1)",
           },
         },
+        slideLeft: {
+          from: {
+            transform: "translateX(100%)",
+          },
+          to: {
+            transform: "translateX(0)",
+          },
+        },
+        slideRight: {
+          from: {
+            transform: "translateX(-100%)",
+          },
+          to: {
+            transform: "translateX(0)",
+          },
+        },
       },
       animation: {
         fadeInDown: "fadeInDown 1s ease-out",
@@ -115,6 +131,8 @@ const config: Config = {
         fadeInUpDelayed: "fadeInUp 1s ease-out 0.9s both",
         modalFadeIn: "modalFadeIn 0.3s ease-out",
         modalScaleIn: "modalScaleIn 0.3s ease-out",
+        slideLeft: "slideLeft 0.2s ease-out",
+        slideRight: "slideRight 0.2s ease-out",
       },
     },
   },
