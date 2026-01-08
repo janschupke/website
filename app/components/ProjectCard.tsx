@@ -6,13 +6,25 @@ interface ProjectCardProps {
   url: string;
   github: string | null;
   images: string[];
+  onImageClick?: (index: number) => void;
 }
 
-export default function ProjectCard({ name, description, url, github, images }: ProjectCardProps) {
+export default function ProjectCard({
+  name,
+  description,
+  url,
+  github,
+  images,
+  onImageClick,
+}: ProjectCardProps) {
   return (
     <div className="flex flex-col sm:flex-row gap-6 bg-background-tertiary p-6 rounded-card shadow-card hover:-translate-y-1 hover:shadow-cardHover transition-all duration-300">
       <div className="flex-shrink-0 w-full sm:w-80 lg:w-96">
-        <ImageCarousel images={images} alt={`${name} Project`} />
+        <ImageCarousel
+          images={images}
+          alt={`${name} Project`}
+          {...(onImageClick && { onImageClick })}
+        />
       </div>
       <div className="flex-1 min-w-0 flex flex-col justify-between">
         <div>
@@ -45,4 +57,3 @@ export default function ProjectCard({ name, description, url, github, images }: 
     </div>
   );
 }
-

@@ -1,13 +1,28 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Section from "./components/Section";
 import ProjectCard from "./components/ProjectCard";
 import SocialLink from "./components/SocialLink";
 import UpworkIcon from "./components/UpworkIcon";
+import ImageModal from "./components/ImageModal";
+
+interface ModalState {
+  isOpen: boolean;
+  images: string[];
+  currentIndex: number;
+  alt: string;
+}
 
 export default function Home() {
+  const [modalState, setModalState] = useState<ModalState>({
+    isOpen: false,
+    images: [],
+    currentIndex: 0,
+    alt: "",
+  });
+
   useEffect(() => {
     // Add scroll-triggered animations
     const observerOptions = {
@@ -45,6 +60,37 @@ export default function Home() {
       observer.disconnect();
     };
   }, []);
+
+  const openModal = (images: string[], index: number, alt: string) => {
+    setModalState({
+      isOpen: true,
+      images,
+      currentIndex: index,
+      alt,
+    });
+  };
+
+  const closeModal = () => {
+    setModalState((prev) => ({ ...prev, isOpen: false }));
+  };
+
+  const goToPrevious = () => {
+    setModalState((prev) => ({
+      ...prev,
+      currentIndex: prev.currentIndex === 0 ? prev.images.length - 1 : prev.currentIndex - 1,
+    }));
+  };
+
+  const goToNext = () => {
+    setModalState((prev) => ({
+      ...prev,
+      currentIndex: prev.currentIndex === prev.images.length - 1 ? 0 : prev.currentIndex + 1,
+    }));
+  };
+
+  const goToImage = (index: number) => {
+    setModalState((prev) => ({ ...prev, currentIndex: index }));
+  };
 
   const projects = [
     {
@@ -118,9 +164,7 @@ export default function Home() {
               />
             </div>
             <div className="text-center sm:text-left animate-fadeInRightDelayed">
-              <h1 className="text-3xl sm:text-4xl font-bold text-text-primary mb-2">
-                Jan Schupke
-              </h1>
+              <h1 className="text-3xl sm:text-4xl font-bold text-text-primary mb-2">Jan Schupke</h1>
               <p className="text-lg sm:text-xl text-text-tertiary mb-4">Software Engineer</p>
               <div className="text-text-muted text-sm space-y-1">
                 <p>
@@ -163,7 +207,13 @@ export default function Home() {
           <Section title="About">
             <div className="prose prose-gray max-w-none">
               <p className="text-text-secondary leading-relaxed text-base sm:text-lg mb-4">
-                Fullstack Engineer with 10 years of experience in developing and maintaining large-scale web applications, leveraging expertise in React, Node, and PostgreSQL. Proficient in integrating complex user interfaces and collaborating within diverse teams to enhance project outcomes. Demonstrated ability to mentor peers and streamline workflows, particularly in remote settings. Fluent in multiple languages and experienced with agile methodologies and leadership practices, enabling eﬀective communication in international environments.
+                Fullstack Engineer with 10 years of experience in developing and maintaining
+                large-scale web applications, leveraging expertise in React, Node, and PostgreSQL.
+                Proficient in integrating complex user interfaces and collaborating within diverse
+                teams to enhance project outcomes. Demonstrated ability to mentor peers and
+                streamline workflows, particularly in remote settings. Fluent in multiple languages
+                and experienced with agile methodologies and leadership practices, enabling eﬀective
+                communication in international environments.
               </p>
             </div>
           </Section>
@@ -178,12 +228,26 @@ export default function Home() {
                   url={project.url}
                   github={project.github}
                   images={project.images}
+                  onImageClick={(index) =>
+                    openModal(project.images, index, `${project.name} Project`)
+                  }
                 />
               ))}
             </div>
           </Section>
         </main>
       </div>
+
+      <ImageModal
+        isOpen={modalState.isOpen}
+        images={modalState.images}
+        currentIndex={modalState.currentIndex}
+        alt={modalState.alt}
+        onClose={closeModal}
+        onPrevious={goToPrevious}
+        onNext={goToNext}
+        onGoToImage={goToImage}
+      />
     </div>
   );
 }

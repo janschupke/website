@@ -86,6 +86,24 @@ const config: Config = {
             transform: "translateX(0)",
           },
         },
+        modalFadeIn: {
+          from: {
+            opacity: "0",
+          },
+          to: {
+            opacity: "1",
+          },
+        },
+        modalScaleIn: {
+          from: {
+            opacity: "0",
+            transform: "scale(0.9)",
+          },
+          to: {
+            opacity: "1",
+            transform: "scale(1)",
+          },
+        },
       },
       animation: {
         fadeInDown: "fadeInDown 1s ease-out",
@@ -95,6 +113,8 @@ const config: Config = {
         fadeInLeftDelayed: "fadeInLeft 1s ease-out 0.3s both",
         fadeInRightDelayed: "fadeInRight 1s ease-out 0.6s both",
         fadeInUpDelayed: "fadeInUp 1s ease-out 0.9s both",
+        modalFadeIn: "modalFadeIn 0.3s ease-out",
+        modalScaleIn: "modalScaleIn 0.3s ease-out",
       },
     },
   },

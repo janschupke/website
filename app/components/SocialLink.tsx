@@ -17,4 +17,3 @@ export default function SocialLink({ href, title, icon }: SocialLinkProps) {
     </a>
   );
 }
-

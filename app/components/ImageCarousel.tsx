@@ -7,9 +7,15 @@ interface ImageCarouselProps {
   images: string[];
   alt: string;
   className?: string;
+  onImageClick?: (index: number) => void;
 }
 
-export default function ImageCarousel({ images, alt, className = "" }: ImageCarouselProps) {
+export default function ImageCarousel({
+  images,
+  alt,
+  className = "",
+  onImageClick,
+}: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (images.length === 0) return null;
@@ -26,15 +32,22 @@ export default function ImageCarousel({ images, alt, className = "" }: ImageCaro
     setCurrentIndex(index);
   };
 
+  const handleImageClick = () => {
+    if (onImageClick) {
+      onImageClick(currentIndex);
+    }
+  };
+
   return (
     <div className={`relative w-full ${className}`}>
-      <div className="relative w-full aspect-video overflow-hidden rounded-image bg-background-secondary shadow-card">
+      <div className="relative w-full aspect-video overflow-hidden rounded-image bg-background-secondary shadow-card cursor-pointer">
         {images.map((image, index) => (
           <div
             key={index}
             className={`absolute inset-0 transition-opacity duration-500 ${
               index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
+            onClick={handleImageClick}
           >
             <Image
               src={image}
@@ -52,14 +65,14 @@ export default function ImageCarousel({ images, alt, className = "" }: ImageCaro
           {/* Navigation Arrows */}
           <button
             onClick={goToPrevious}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-interactive-hover/50 hover:bg-interactive-hover/70 text-background-secondary rounded-full p-2 transition-all duration-300 z-10"
+            className="absolute left-2 top-1/2 -translate-y-1/2 text-interactive-hover hover:text-text-primary rounded-full p-2 transition-all duration-300 z-10"
             aria-label="Previous image"
           >
             <i className="fas fa-chevron-left text-sm"></i>
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-interactive-hover/50 hover:bg-interactive-hover/70 text-background-secondary rounded-full p-2 transition-all duration-300 z-10"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-interactive-hover hover:text-text-primary rounded-full p-2 transition-all duration-300 z-10"
             aria-label="Next image"
           >
             <i className="fas fa-chevron-right text-sm"></i>
