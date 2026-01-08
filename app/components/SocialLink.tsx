@@ -11,7 +11,7 @@ export default function SocialLink({ href, title, icon }: SocialLinkProps) {
       target="_blank"
       rel="noopener noreferrer"
       title={title}
-      className="text-2xl text-text-secondary hover:text-text-primary hover:-translate-y-1 transition-all duration-300"
+      className="text-2xl text-text-secondary hover:text-text-primary hover:-translate-y-1 transition-all duration-300 flex items-center justify-center"
     >
       {icon}
     </a>
